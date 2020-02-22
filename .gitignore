@@ -4,6 +4,7 @@ package-lock.json
 .idea
 /dist
 /config
+/public
 
 
 # local env files
