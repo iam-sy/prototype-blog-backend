@@ -4,6 +4,9 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
+        // [todo] user정보 가져와서 폴더/파일별 정리
+        // uuid : folder,
+        // filename : orgname + date.now() + ext
         cb(null, 'public/uploads');
     },
     filename: (req, file, cb) => {
