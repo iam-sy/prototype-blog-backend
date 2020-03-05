@@ -1,38 +1,25 @@
-import mongoose from 'mongoose';
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors');
-var multer = require('multer');
-var upload = multer({ dest: 'public/uploads/' });
-var bodyParser = require('body-parser');
-var indexRouter = require('./routes');
-var uploadRouter = require('./routes/uploader');
-var posts = require('./routes/posts');
-//var usersRouter = require('./routes/users');
-//var moviesRouter = require('./routes/movies');
+import express from 'express';
+import path from 'path';
+import logger from 'morgan';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import createError from 'http-errors';
+
+import { mongooseConnect } from './utils/mongoose/connect';
+
+import { homeRouter } from './routes/index';
+import { uploadRouter } from './routes/uploader';
+import { postRouter } from './routes/posts';
 
 var app = express();
 
 // db connect
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-mongoose.set('useUnifiedTopology', true);
-mongoose.set('useNewUrlParser', true);
-mongoose.connect(
-    'mongodb+srv://test:1234@moon-zpapa.mongodb.net/test?retryWrites=true&w=majority',
-    {
-        useNewUrlParser: true,
-    },
-);
-mongoose.Promise = global.Promise;
+mongooseConnect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 app.use(cors());
 app.use(logger('dev'));
 app.use(
@@ -49,10 +36,10 @@ app.use(
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+/* router */
+app.use('/', homeRouter);
 app.use('/api/upload', uploadRouter);
-app.use('/api/post', posts);
+app.use('/api/post', postRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

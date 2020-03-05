@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router(); /* GET home page. */
+import express from 'express';
 import PostModel from '../models/PostModel.js';
 
-router.post('/', async (req, res) => {
+const postRouter = express.Router();
+
+postRouter.post('/', async (req, res) => {
     try {
         const doc = await PostModel.create({
             ...req.body,
@@ -18,4 +19,5 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export { postRouter };
+//module.exports = router;

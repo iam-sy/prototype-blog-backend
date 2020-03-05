@@ -1,6 +1,6 @@
-const multer = require('multer');
-const uuid = require('uuid');
-const path = require('path');
+import path from 'path';
+import multer from 'multer';
+import uuid from 'uuid';
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
