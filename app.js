@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,11 +9,25 @@ var multer = require('multer');
 var upload = multer({ dest: 'public/uploads/' });
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes');
-var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploader');
-var moviesRouter = require('./routes/movies');
+var posts = require('./routes/posts');
+//var usersRouter = require('./routes/users');
+//var moviesRouter = require('./routes/movies');
 
 var app = express();
+
+// db connect
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useNewUrlParser', true);
+mongoose.connect(
+    'mongodb+srv://test:1234@moon-zpapa.mongodb.net/test?retryWrites=true&w=majority',
+    {
+        useNewUrlParser: true,
+    },
+);
+mongoose.Promise = global.Promise;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 app.use('/api/upload', uploadRouter);
+app.use('/api/post', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
