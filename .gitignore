@@ -5,7 +5,7 @@ package-lock.json
 /dist
 /config
 /public
-
+.env
 
 # local env files
 .env.local

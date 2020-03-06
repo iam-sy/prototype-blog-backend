@@ -6,11 +6,14 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import createError from 'http-errors';
 
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
 import { mongooseConnect } from './utils/mongoose/connect';
 
 import { homeRouter } from './routes/index';
 import { uploadRouter } from './routes/uploader';
 import { postRouter } from './routes/posts';
+import { authRouter } from './routes/auth';
 
 var app = express();
 
@@ -18,6 +21,8 @@ var app = express();
 mongooseConnect();
 
 // view engine setup
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(cors());
@@ -33,11 +38,10 @@ app.use(
         extended: true,
     }),
 );
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 /* router */
 app.use('/', homeRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/post', postRouter);
 

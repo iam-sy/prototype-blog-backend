@@ -11,7 +11,7 @@
         "js": "node"
     },
     "runOnChangeOnly": false,
-    "watch": ["./app.js", "./**/*.graphql", "./**/*.gql"],
+    "watch": ["./**/*.js"],
     "env": {
         "NODE_ENV": "development"
     },
