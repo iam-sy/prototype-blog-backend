@@ -32,13 +32,13 @@ const authLocalRegister = async (req, res, next) => {
             res.status(409).send({ message: `${key} exists error` });
             return true;
         }
-        console.log('exists', exists);
         // 유저 생성
         const user = await userModel.localRegister({
             displayName,
             email,
             password,
         });
+        // accessToken 생성
         const accessToken = await generateToken(
             {
                 user: {
@@ -48,7 +48,6 @@ const authLocalRegister = async (req, res, next) => {
             },
             'user',
         );
-
         // set cookie
         res.cookie('access_token', accessToken, {
             httpOnly: true,
