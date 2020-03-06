@@ -9,6 +9,7 @@ import createError from 'http-errors';
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 import { mongooseConnect } from './db/mongoose/connect';
+import { jwtMiddleware } from './lib/middlewares/jwt';
 
 import { homeRouter } from './routes/index';
 import { uploadRouter } from './routes/uploader';
@@ -19,9 +20,9 @@ var app = express();
 
 // db connect
 mongooseConnect();
-
 // view engine setup
 app.use(cookieParser());
+app.use(jwtMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
