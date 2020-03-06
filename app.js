@@ -8,7 +8,7 @@ import createError from 'http-errors';
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-import { mongooseConnect } from './utils/mongoose/connect';
+import { mongooseConnect } from './db/mongoose/connect';
 
 import { homeRouter } from './routes/index';
 import { uploadRouter } from './routes/uploader';
@@ -41,7 +41,7 @@ app.use(
 
 /* router */
 app.use('/', homeRouter);
-app.use('/api/auth', authRouter);
+app.use('/api', authRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/post', postRouter);
 

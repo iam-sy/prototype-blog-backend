@@ -1,5 +1,5 @@
 import express from 'express';
-import { imgUpload } from '../utils/upload/image';
+import { imgUpload } from '../lib/upload/image';
 
 const uploadRouter = express.Router();
 

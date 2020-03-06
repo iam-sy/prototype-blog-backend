@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 const { PASSWORD_HASH_KEY: secret } = process.env;
+import { createToken } from '../../lib/token/token';
 
 function hash(password) {
     return crypto
@@ -31,12 +32,15 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.findByEmail = function(email) {
     return this.findOne({ email }).exec();
 };
+
 userSchema.statics.findByDisplayName = function(displayName) {
     return this.findOne({ displayName }).exec();
 };
+
 userSchema.statics.findExistancy = function({ email, displayName }) {
     return this.findOne({ $or: [{ email }, { displayName }] }).exec();
 };
+
 userSchema.statics.localRegister = function({ displayName, email, password }) {
     const user = new this({
         displayName,
@@ -44,6 +48,24 @@ userSchema.statics.localRegister = function({ displayName, email, password }) {
         password: hash(password),
     });
     return user.save();
+};
+
+userSchema.methods.validatePassword = function(password) {
+    const hashed = hash(password);
+    return this.password === hashed;
+};
+
+userSchema.methods.generateToken = function() {
+    const { _id, displayName } = this;
+    return createToken(
+        {
+            user: {
+                _id,
+                displayName,
+            },
+        },
+        'user',
+    );
 };
 
 //postSchema.index({ Users: 1, title: 1 }, { unique: true });
