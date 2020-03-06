@@ -53,9 +53,7 @@ const authLocalRegister = async (req, res, next) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 7,
         });
-        res.send('');
-
-        res.status(201).json(accessToken);
+        res.status(201).send('');
     } catch (e) {
         res.status(500);
     }
