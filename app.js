@@ -21,12 +21,13 @@ var app = express();
 // db connect
 mongooseConnect();
 // view engine setup
+app.use(cors());
+
 app.use(cookieParser());
 app.use(jwtMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(cors());
 app.use(logger('dev'));
 app.use(
     bodyParser.urlencoded({
