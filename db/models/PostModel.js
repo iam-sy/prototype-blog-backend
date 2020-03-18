@@ -8,11 +8,17 @@ const postSchema = new mongoose.Schema(
             trim: true,
             maxlength: 50,
         },
-        tags: Array,
+        tags: String,
         content: {
             type: String,
             required: true,
             trim: true,
+        },
+        desc: {
+            type: String,
+        },
+        sumnail: {
+            type: String,
         },
         /*createdBy: {
             type: mongoose.SchemaTypes.ObjectId,

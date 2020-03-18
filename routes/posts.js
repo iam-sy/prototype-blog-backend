@@ -1,12 +1,22 @@
+const mkdirp = require('mkdirp');
+
 import express from 'express';
 import PostModel from '../db/models/PostModel.js';
+import { imgUpload } from '../lib/upload/image';
 
 const postRouter = express.Router();
+const uploadDir = 'public/uploads/posts';
+const uploader = imgUpload(uploadDir);
 
-postRouter.post('/', async (req, res) => {
+mkdirp.sync(uploadDir);
+
+postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
     try {
         const doc = await PostModel.create({
             ...req.body,
+            sumnail: req.file
+                ? `${req.file.destination}/${req.file.filename}`
+                : '',
         });
         //createdBy: req.user._id,
         res.status(201).json({ data: doc });
@@ -20,4 +30,3 @@ postRouter.post('/', async (req, res) => {
 });
 
 export { postRouter };
-//module.exports = router;
