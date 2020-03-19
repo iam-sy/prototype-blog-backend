@@ -15,8 +15,9 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
         const { tags } = req.body;
         const tagsArray = tags.split(',');
         const sumnailPath = req.file
-            ? req.file.destination.replace('/public')
+            ? req.file.destination.replace('public', '')
             : '';
+        console.log(sumnailPath);
         const doc = await PostModel.create({
             ...req.body,
             tags: tagsArray,
