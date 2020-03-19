@@ -12,8 +12,11 @@ mkdirp.sync(uploadDir);
 
 postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
     try {
+        const { tags } = req.body;
+        const tagsArray = tags.split(',');
         const doc = await PostModel.create({
             ...req.body,
+            tags: tagsArray,
             sumnail: req.file
                 ? `${req.file.destination}/${req.file.filename}`
                 : '',
