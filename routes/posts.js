@@ -39,6 +39,9 @@ postRouter.get('/', async (req, res) => {
         let docs =
             sec === 'all'
                 ? await PostModel.find()
+                      .sort({ _id: -1 })
+                      .lean()
+                      .exec()
                 : await PostModel.find({ sec: sec })
                       .sort({ _id: -1 })
                       .lean()
