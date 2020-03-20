@@ -12,16 +12,17 @@ mkdirp.sync(uploadDir);
 
 postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
     try {
+        console.log(req.body);
         const { tags } = req.body;
-        const tagsArray = tags.split(',');
+        const tagsArray = tags.length > 0 ? tags.split(',') : [];
+        console.log(req.file);
         const sumnailPath = req.file
             ? req.file.destination.replace('public', '')
             : '';
-        console.log(sumnailPath);
         const doc = await PostModel.create({
             ...req.body,
+            image: req.file ? `${sumnailPath}/${req.file.filename}` : '',
             tags: tagsArray,
-            sumnail: req.file ? `${sumnailPath}/${req.file.filename}` : '',
         });
         //createdBy: req.user._id,
         res.status(201).json({ data: doc });
@@ -57,4 +58,59 @@ postRouter.get('/', async (req, res) => {
     }
 });
 
+postRouter.get('/:id', async (req, res) => {
+    try {
+        const doc = await PostModel.findOne({
+            _id: req.params.id,
+        })
+            .lean()
+            .exec();
+
+        if (!doc) {
+            return res.status(400).json({ message: 'The data is not found' });
+        }
+        res.status(200).json({
+            posts: doc,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ message: 'sth wrong', error });
+    }
+});
+
+postRouter.put('/:id', uploader.single('sumnail'), async (req, res) => {
+    try {
+        console.log(req.body);
+
+        const { tags } = req.body;
+        const tagsArray = tags ? tags.split(',') : [];
+        const sumnailPath = req.file
+            ? req.file.destination.replace('public', '')
+            : '';
+        const updatedDoc = await PostModel.findOneAndUpdate(
+            {
+                _id: req.params.id,
+            },
+            {
+                ...req.body,
+                image: req.file
+                    ? `${sumnailPath}/${req.file.filename}`
+                    : req.body.image,
+                tags: tagsArray,
+            },
+            { new: true },
+        )
+            .lean()
+            .exec();
+
+        if (!updatedDoc) {
+            return res.status(400).json({ message: 'cannot update the data' });
+        }
+
+        res.status(200).json({ ...updatedDoc });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ message: 'sth wrong', error });
+    }
+});
 export { postRouter };

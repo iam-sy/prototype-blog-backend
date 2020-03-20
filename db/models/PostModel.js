@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema(
         desc: {
             type: String,
         },
-        sumnail: {
+        image: {
             type: String,
         },
         /*createdBy: {
