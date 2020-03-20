@@ -80,8 +80,6 @@ postRouter.get('/:id', async (req, res) => {
 
 postRouter.put('/:id', uploader.single('sumnail'), async (req, res) => {
     try {
-        console.log(req.body);
-
         const { tags } = req.body;
         const tagsArray = tags ? tags.split(',') : [];
         const sumnailPath = req.file
@@ -113,4 +111,24 @@ postRouter.put('/:id', uploader.single('sumnail'), async (req, res) => {
         res.status(400).json({ message: 'sth wrong', error });
     }
 });
+
+postRouter.delete('/:id', async (req, res) => {
+    try {
+        const removed = await PostModel.findOneAndRemove({
+            _id: req.params.id,
+        })
+            .lean()
+            .exec();
+
+        if (!removed) {
+            return res.status(400).json({ message: 'cannot remove the data' });
+        }
+
+        return res.status(200).json({ ...removed });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'sth wrong', error });
+    }
+});
+
 export { postRouter };
