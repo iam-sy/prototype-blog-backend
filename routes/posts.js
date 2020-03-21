@@ -1,3 +1,5 @@
+import { searchRouter } from './search';
+
 const mkdirp = require('mkdirp');
 
 import express from 'express';
@@ -12,10 +14,8 @@ mkdirp.sync(uploadDir);
 
 postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
     try {
-        console.log(req.body);
         const { tags } = req.body;
         const tagsArray = tags.length > 0 ? tags.split(',') : [];
-        console.log(req.file);
         const sumnailPath = req.file
             ? req.file.destination.replace('public', '')
             : '';
@@ -37,17 +37,33 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
 
 postRouter.get('/', async (req, res) => {
     try {
-        const { sec } = req.query;
-        let docs =
-            sec === 'all'
-                ? await PostModel.find()
-                      .sort({ _id: -1 })
-                      .lean()
-                      .exec()
-                : await PostModel.find({ sec: sec })
-                      .sort({ _id: -1 })
-                      .lean()
-                      .exec();
+        const { sec, schtext, schtags } = req.query;
+        let findQuery = {};
+        let searchQuery = [];
+        console.log(req.query);
+        if (sec !== 'all') {
+            searchQuery.push({ sec: sec });
+        }
+        if (schtext) {
+            const newSearchRegex = new RegExp(schtext, 'g');
+            searchQuery.push({
+                $or: [{ desc: newSearchRegex }, { title: newSearchRegex }],
+            });
+        }
+        if (schtags) {
+            const tagArray = schtags.split(',');
+            searchQuery.push({ tags: { $in: tagArray } });
+        }
+        if (searchQuery.length !== 0) {
+            findQuery = {
+                $and: searchQuery,
+            };
+        }
+
+        let docs = await PostModel.find(findQuery)
+            .sort({ _id: -1 })
+            .lean()
+            .exec();
 
         res.status(200).json({
             posts: docs,
