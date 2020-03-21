@@ -40,7 +40,6 @@ postRouter.get('/', async (req, res) => {
         const { sec, schtext, schtags } = req.query;
         let findQuery = {};
         let searchQuery = [];
-        console.log(req.query);
         if (sec !== 'all') {
             searchQuery.push({ sec: sec });
         }
