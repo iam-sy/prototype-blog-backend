@@ -37,7 +37,15 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
 
 postRouter.get('/', async (req, res) => {
     try {
-        const { sec, schtext, schtags } = req.query;
+        const {
+            sec,
+            schtext,
+            schtags,
+            perPage,
+            pageGroup,
+            limit,
+            currentPage,
+        } = req.query;
         let findQuery = {};
         let searchQuery = [];
         if (sec !== 'all') {
@@ -58,13 +66,21 @@ postRouter.get('/', async (req, res) => {
                 $and: searchQuery,
             };
         }
-
+        let totalCount = await PostModel.countDocuments(
+            findQuery,
+            (err, count) => {
+                return count;
+            },
+        );
         let docs = await PostModel.find(findQuery)
             .sort({ _id: -1 })
+            .skip(parseInt((currentPage - 1) * limit))
+            .limit(parseInt(limit))
             .lean()
             .exec();
 
         res.status(200).json({
+            totalCount: totalCount,
             posts: docs,
         });
     } catch (error) {
