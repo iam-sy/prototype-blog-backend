@@ -94,6 +94,22 @@ postRouter.get('/:id', async (req, res) => {
         const doc = await PostModel.findOne({
             _id: req.params.id,
         })
+            .sort({ createdAt: -1 })
+            .lean()
+            .exec();
+
+        const prev = await PostModel.findOne({
+            _id: { $gt: req.params.id },
+        })
+            .sort({ createdAt: 1 })
+            .limit(1)
+            .lean()
+            .exec();
+        const next = await PostModel.findOne({
+            _id: { $lt: req.params.id },
+        })
+            .sort({ createdAt: -1 })
+            .limit(1)
             .lean()
             .exec();
 
@@ -102,6 +118,8 @@ postRouter.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             posts: doc,
+            next,
+            prev,
         });
     } catch (error) {
         console.error(error);
