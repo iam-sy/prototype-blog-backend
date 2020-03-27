@@ -3,7 +3,7 @@ import userModel from '../../db/models/userModel';
 
 //register code
 const authLocalRegister = async (req, res, next) => {
-    console.log('local register');
+    console.log(req.body);
     const body = req.body;
     const schema = Joi.object({
         displayName: Joi.string()
@@ -37,7 +37,6 @@ const authLocalRegister = async (req, res, next) => {
             email,
             password,
         });
-        console.log('test');
         req.body = {
             displayName,
             _id: user._id,
@@ -87,18 +86,20 @@ const localLogin = async (req, res, next) => {
             res.status(403).json({ message: error.message });
             return;
         }
+        console.log(body);
 
         const accessToken = await user.generateToken();
         // set cookie
         res.cookie('accesstoken', accessToken, {
             httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
+            maxAge: 1000 * 60 * 60,
         });
 
         const { displayName, _id } = user;
 
         res.status(200).json({
             displayName,
+            accessToken,
             _id: _id,
         });
     } catch (e) {

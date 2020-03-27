@@ -1,5 +1,3 @@
-import { searchRouter } from './search';
-
 const mkdirp = require('mkdirp');
 
 import express from 'express';
