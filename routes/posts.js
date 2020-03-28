@@ -1,9 +1,10 @@
 const mkdirp = require('mkdirp');
-
+import fs from 'fs';
+import path from 'path';
 import express from 'express';
 import PostModel from '../db/models/PostModel.js';
 import { imgUpload } from '../lib/upload/image';
-
+const sharp = require('sharp');
 const postRouter = express.Router();
 const uploadDir = 'public/uploads/posts';
 const uploader = imgUpload(uploadDir);
@@ -17,6 +18,15 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
         const sumnailPath = req.file
             ? req.file.destination.replace('public', '')
             : '';
+
+        if (req.file) {
+            sharp(req.file.path)
+                .resize(900)
+                .toBuffer((e, buffer) => {
+                    fs.writeFileSync(req.file.path, buffer);
+                });
+        }
+
         const doc = await PostModel.create({
             ...req.body,
             image: req.file ? `${sumnailPath}/${req.file.filename}` : '',
@@ -148,6 +158,13 @@ postRouter.put('/:id', uploader.single('sumnail'), async (req, res) => {
             .lean()
             .exec();
 
+        if (req.file) {
+            sharp(req.file.path)
+                .resize(900)
+                .toBuffer((e, buffer) => {
+                    fs.writeFileSync(req.file.path, buffer);
+                });
+        }
         if (!updatedDoc) {
             return res.status(400).json({ message: 'cannot update the data' });
         }
