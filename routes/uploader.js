@@ -8,8 +8,8 @@ import { imgUpload, checkUploadPath } from '../lib/upload/image';
 import fs from 'fs';
 
 const uploadRouter = express.Router();
-const uploadDir = 'public/uploads/paste';
-const resizePath = 'public/uploads/paste';
+const uploadDir = 'uploads/paste';
+const resizePath = 'uploads/paste';
 const uploader = imgUpload(uploadDir);
 mkdirp.sync(uploadDir);
 

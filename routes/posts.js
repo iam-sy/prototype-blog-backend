@@ -6,7 +6,7 @@ import PostModel from '../db/models/PostModel.js';
 import { imgUpload } from '../lib/upload/image';
 const sharp = require('sharp');
 const postRouter = express.Router();
-const uploadDir = 'public/uploads/posts';
+const uploadDir = 'uploads/posts';
 const uploader = imgUpload(uploadDir);
 
 mkdirp.sync(uploadDir);
