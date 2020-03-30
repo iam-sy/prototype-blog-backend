@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/manager', express.static(path.join(__dirname, 'public/manager')));
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', homeRouter);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
