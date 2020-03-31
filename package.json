@@ -8,7 +8,6 @@
         "devstart": "nodemon -r dotenv/config --exec babel-node ./bin/www",
         "start": "babel-node ./bin/www",
         "restart": "rimraf dist && npm run build && npm run start",
-        "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.0",
