@@ -8,7 +8,6 @@ export const mongooseConnect = () => {
     /*mongoose.connect(connact, {
         useNewUrlParser: true,
     });*/
-
     mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
     });
