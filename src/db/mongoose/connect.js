@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const { MONGOOSE_LOCAL_URL: connact } = process.env;
+
 export const mongooseConnect = () => {
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -9,7 +9,7 @@ export const mongooseConnect = () => {
         useNewUrlParser: true,
     });*/
 
-    mongoose.connect(connact, {
+    mongoose.connect(process.env.MONGOOSE_CONNACT_URL, {
         useNewUrlParser: true,
     });
     mongoose.Promise = global.Promise;

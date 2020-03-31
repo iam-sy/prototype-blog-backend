@@ -3,13 +3,13 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "set DEBUG=backend:* & npm start",
+        "dev": "set DEBUG=backend:* & set NODE_ENV=development & npm run start:dev",
         "babel-node": "babel-node --presets=latest",
-        "restart": "rimraf dist && npm run build:dev && npm run start",
+        "restart": "rimraf dist && npm run build:dev && npm run start:dev",
         "build:dev": "babel src --out-dir dist --source-maps inline --copy-files",
         "start:dev": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
         "clean": "rm package-lock.json",
-        "start": "npm run clean && npm run build:dev && babel-node ./dist/app.js",
+        "start": "set NODE_ENV=production & npm run build:dev && babel-node ./dist/app.js",
         "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {

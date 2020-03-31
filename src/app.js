@@ -1,4 +1,4 @@
-require("babel-polyfill");
+require('babel-polyfill');
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
@@ -7,12 +7,12 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import createError from 'http-errors';
 
-
-
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: path.join(__dirname, '.env') });
+import dotenv from 'dotenv';
+if (process.env.NODE_ENV === 'development') {
+    dotenv.config({ path: path.join(__dirname, '../.env.development') });
+} else {
+    dotenv.config({ path: path.join(__dirname, '../.env.production') });
 }
-
 import { mongooseConnect } from './db/mongoose/connect';
 import { jwtMiddleware } from './lib/middlewares/jwt';
 
