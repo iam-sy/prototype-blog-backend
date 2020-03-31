@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "set DEBUG=backend:* & npm start",
         "babel-node": "babel-node --presets=latest",
-        "start": "nodemon -r dotenv/config --exec babel-node ./bin/www",
+        "devstart": "nodemon -r dotenv/config --exec babel-node ./bin/www",
+        "start": "babel-node ./bin/www",
         "restart": "rimraf dist && npm run build && npm run start",
         "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
