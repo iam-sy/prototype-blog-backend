@@ -7,7 +7,9 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import createError from 'http-errors';
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: path.join(__dirname, '.env') });
+}
 
 import { mongooseConnect } from './db/mongoose/connect';
 import { jwtMiddleware } from './lib/middlewares/jwt';
