@@ -9,7 +9,7 @@ export const mongooseConnect = () => {
         useNewUrlParser: true,
     });*/
 
-    mongoose.connect(process.env.MONGOOSE_CONNACT_URL, {
+    mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
     });
     mongoose.Promise = global.Promise;
