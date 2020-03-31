@@ -27,8 +27,8 @@ app.use(cors());
 
 app.use(cookieParser());
 app.use(jwtMiddleware);
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(
     bodyParser.urlencoded({
@@ -43,6 +43,7 @@ app.use(
 );
 
 /* router */
+app.use('/', homeRouter);
 
 app.use('/api/auth', authRouter);
 app.use('/api/upload', uploadRouter);
@@ -51,7 +52,6 @@ app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/manager', express.static(path.join(__dirname, 'public/manager')));
 //app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', homeRouter);
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // catch 404 and forward to error handler
