@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     dotenv.config({ path: path.join(__dirname, '../.env.production') });
 }
+
 import { mongooseConnect } from './db/mongoose/connect';
 import { jwtMiddleware } from './lib/middlewares/jwt';
 
