@@ -6,9 +6,9 @@
         "dev": "set DEBUG=backend:* & npm start",
         "babel-node": "babel-node --presets=latest",
         "start": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
-        "clean": "rimraf package-lock.json && rimraf node_modules",
+        "clean": "rimraf package-lock.json",
         "restart": "rimraf dist && npm run build && npm run start",
-        "build": "npm run clean && babel-node src --out-dir dist --source-maps inline --copy-files"
+        "build": "npm run clean && babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.0",
