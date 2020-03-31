@@ -10,7 +10,7 @@
         "start:dev": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
         "clean": "rm package-lock.json",
         "start": "npm run clean && npm run build:dev && babel-node ./dist/app.js",
-        "build": "./node_modules/.bin/babel src --out-dir dist --source-maps inline --copy-files"
+        "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.0",
