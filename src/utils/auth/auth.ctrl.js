@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi';
-import userModel from '../../db/models/userModel';
+import userModel from '../../db/models/UserModel';
 
 //register code
 const authLocalRegister = async (req, res, next) => {

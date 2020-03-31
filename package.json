@@ -5,9 +5,9 @@
     "scripts": {
         "dev": "set DEBUG=backend:* & npm start",
         "babel-node": "babel-node --presets=latest",
-        "devstart": "nodemon -r dotenv/config --exec babel-node ./bin/www",
-        "start": "babel-node ./bin/www",
-        "restart": "rimraf dist && npm run build && npm run start",
+        "start": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
+        "restart": "rimraf dist && npm run devbuild && npm run start",
+        "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.0",

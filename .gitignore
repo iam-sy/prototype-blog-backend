@@ -5,7 +5,7 @@ package-lock.json
 /dist
 /config
 /public
-/uploads
+/src/uploads
 /manager
 .env
 

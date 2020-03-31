@@ -11,7 +11,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 import { mongooseConnect } from './db/mongoose/connect';
 import { jwtMiddleware } from './lib/middlewares/jwt';
 
-import { homeRouter } from './routes/index';
+import { homeRouter } from './routes';
 import { uploadRouter } from './routes/uploader';
 import { postRouter } from './routes/posts';
 import { authRouter } from './routes/auth';
