@@ -3,14 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "set DEBUG=backend:* & npm run develop",
+        "dev": "set DEBUG=backend:* & npm start",
         "babel-node": "babel-node --presets=latest",
-        "develop": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
-        "restart": "rimraf dist && npm run devbuild && npm run develop",
-        "build-babel": "babel src --out-dir dist --source-maps inline --copy-files",
-        "clean": "rimraf dist && rimraf package.lock.json",
-        "build": "npm run clean && npm run build-babel",
-        "start": "npm run build && node ./dist/app.js"
+        "start": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
+        "clean": "rimraf dist && rimraf package-lock.json && rimraf node_modules",
+        "restart": "rimraf dist && npm run build && npm run start",
+        "build": "npm run clean && babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.0",
