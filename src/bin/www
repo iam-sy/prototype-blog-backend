@@ -6,7 +6,6 @@ const vhost = require('vhost');
  */
 
 var app = require('../app');
-var imageServer = require('../../imageServer');
 var debug = require('debug')('backend:server');
 var http = require('http');
 
@@ -20,7 +19,6 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var imgServer = http.createServer(imageServer);
 var server = http.createServer(app);
 
 /**
