@@ -8,7 +8,7 @@
         "develop": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
         "restart": "rimraf dist && npm run devbuild && npm run develop",
         "build-babel": "babel src --out-dir dist --source-maps inline --copy-files",
-        "clean": "rimraf dist",
+        "clean": "rimraf dist && rimraf package.lock.json",
         "build": "npm run clean && npm run build-babel",
         "start": "npm run build && node ./dist/app.js"
     },
