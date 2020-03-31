@@ -6,7 +6,7 @@
         "dev": "set DEBUG=backend:* & npm start",
         "babel-node": "babel-node --presets=latest",
         "start:dev": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
-        "start": "npm run build && node NODE_ENV===production ./dist/app.js",
+        "start": "npm run build && node ./dist/app.js",
         "clean": "rm package-lock.json",
         "restart": "rimraf dist && npm run build && npm run start",
         "build": "npm run clean && babel src --out-dir dist --source-maps inline --copy-files"
