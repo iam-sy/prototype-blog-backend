@@ -49,13 +49,14 @@ app.use(
 );
 
 /* router */
-app.use('/', homeRouter);
 
 app.use('/api/auth', authRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/post', postRouter);
 app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', homeRouter);
+console.log(path.join(__dirname, 'public'));
 //app.use('/manager', express.static(path.join(__dirname, 'public/manager')));
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

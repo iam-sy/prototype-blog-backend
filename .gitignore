@@ -4,7 +4,7 @@ node_modules
 .idea
 /dist
 /config
-/public
+/src/public
 /src/uploads
 /manager
 .env
