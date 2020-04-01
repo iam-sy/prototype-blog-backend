@@ -9,7 +9,7 @@
         "build:dev": "babel src --out-dir dist --source-maps inline --copy-files",
         "start:dev": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
         "clean": "rm package-lock.json",
-        "start": "npm run build:dev && babel-node ./dist/app.js",
+        "start": "npm run build:dev && babel-node ./dist/bin/www",
         "build": "babel src --out-dir dist --source-maps inline --copy-files"
     },
     "dependencies": {
