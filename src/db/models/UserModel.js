@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-const { PASSWORD_HASH_KEY: secret } = process.env;
 import { createToken } from '../../lib/token/token';
 
 function hash(password) {
     return crypto
-        .createHmac('sha256', secret)
+        .createHmac('sha256', process.env.PASSWORD_HASH_KEY)
         .update(password)
         .digest('hex');
 }
@@ -42,11 +41,13 @@ userSchema.statics.findExistancy = function({ email, displayName }) {
 };
 
 userSchema.statics.localRegister = function({ displayName, email, password }) {
+    console.log('localRegister');
     const user = new this({
         displayName,
         email,
         password: hash(password),
     });
+    console.log(user);
     return user.save();
 };
 

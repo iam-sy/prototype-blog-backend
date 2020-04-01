@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken';
-const { JWT_SECRET: secret } = process.env;
 
 function createToken(payload, subject) {
     return new Promise((resolve, reject) => {
         jwt.sign(
             payload,
-            secret,
+            process.env.JWT_SECRET,
             {
                 issuer: 'xlrj0716.synology.me',
                 expiresIn: '7d',

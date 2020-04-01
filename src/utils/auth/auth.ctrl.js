@@ -3,7 +3,6 @@ import userModel from '../../db/models/UserModel';
 
 //register code
 const authLocalRegister = async (req, res, next) => {
-    console.log(req.body);
     const body = req.body;
     const schema = Joi.object({
         displayName: Joi.string()
@@ -21,8 +20,8 @@ const authLocalRegister = async (req, res, next) => {
         res.status(400).json({ message: error.message });
         return;
     }
-
     const { displayName, email, password } = body;
+
     try {
         // 이메일 중복 체크
         const exists = await userModel.findExistancy({ email, displayName });
@@ -37,6 +36,7 @@ const authLocalRegister = async (req, res, next) => {
             email,
             password,
         });
+
         req.body = {
             displayName,
             _id: user._id,
@@ -50,6 +50,7 @@ const authLocalRegister = async (req, res, next) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 7,
         });
+        console.log('check4');
         res.status(201).send('');
     } catch (e) {
         res.status(500);

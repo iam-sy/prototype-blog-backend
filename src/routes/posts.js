@@ -15,6 +15,7 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
     try {
         const { tags } = req.body;
         const tagsArray = tags.length > 0 ? tags.split(',') : [];
+        console.log(req.file);
         const sumnailPath = req.file
             ? req.file.destination.replace('public', '')
             : '';
