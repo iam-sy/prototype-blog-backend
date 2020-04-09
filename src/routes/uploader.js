@@ -1,5 +1,6 @@
 import path from 'path';
-const sharp = require('sharp');
+//const sharp = require('sharp');
+const Jimp = require('jimp');
 
 const mkdirp = require('mkdirp');
 
@@ -14,11 +15,16 @@ const uploader = imgUpload(uploadDir);
 mkdirp.sync(uploadDir);
 
 uploadRouter.post('/', uploader.single('file'), async (req, res) => {
-    sharp(req.file.path)
+
+    let image = await Jimp.read(req.file.path);
+    await image.resize(900, Jimp.AUTO);
+    await image.writeAsync(req.file.path);
+
+    /*sharp(req.file.path)
         .resize(900)
         .toBuffer((e, buffer) => {
             fs.writeFileSync(req.file.path, buffer);
-        });
+        });*/
     //fs.unlinkSync(req.file.path);
     try {
         res.status(200).json({ data: req.file });

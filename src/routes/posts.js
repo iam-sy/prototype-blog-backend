@@ -4,7 +4,8 @@ import path from 'path';
 import express from 'express';
 import PostModel from '../db/models/PostModel.js';
 import { imgUpload } from '../lib/upload/image';
-const sharp = require('sharp');
+//const sharp = require('sharp');
+const Jimp = require('jimp');
 const postRouter = express.Router();
 const uploadDir = 'uploads/posts';
 const uploader = imgUpload(uploadDir);
@@ -21,11 +22,24 @@ postRouter.post('/', uploader.single('sumnail'), async (req, res) => {
             : '';
 
         if (req.file) {
-            sharp(req.file.path)
+            let image = await Jimp.read(req.file.path);
+            console.log(image)
+                /*.then(lenna => {
+                    return lenna
+                        .resize(900) // resize
+                        .quality(60) // set JPEG quality
+                        .greyscale() // set greyscale
+                        .write('lena-small-bw.jpg'); // save
+                })
+                .catch(err => {
+                    console.error(err);
+                });*/
+
+            /*sharp(req.file.path)
                 .resize(900)
                 .toBuffer((e, buffer) => {
                     fs.writeFileSync(req.file.path, buffer);
-                });
+                });*/
         }
 
         const doc = await PostModel.create({
@@ -160,11 +174,9 @@ postRouter.put('/:id', uploader.single('sumnail'), async (req, res) => {
             .exec();
 
         if (req.file) {
-            sharp(req.file.path)
-                .resize(900)
-                .toBuffer((e, buffer) => {
-                    fs.writeFileSync(req.file.path, buffer);
-                });
+            let image = await Jimp.read(req.file.path);
+            await image.resize(900, Jimp.AUTO);
+            await image.writeAsync(req.file.path);
         }
         if (!updatedDoc) {
             return res.status(400).json({ message: 'cannot update the data' });

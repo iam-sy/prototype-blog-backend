@@ -10,12 +10,10 @@ services:
       - node1:node1
       - node2:node2
       - node3:node3
-    - # 포트 지정
     depends_on:
       - node1
       - node2
       - node3
-    # 포트 지정
     ports:
       - "8080:80"
     networks:
@@ -29,7 +27,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - "2222"
+      - "3000"
     environment:
       - INSTANCE=node1
     networks:
@@ -43,7 +41,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - "2222"
+      - "3000"
     environment:
       - INSTANCE=node2
     networks:
@@ -57,7 +55,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - "2222"
+      - "3000"
     environment:
       - INSTANCE=node3
     networks:
