@@ -44,5 +44,5 @@ EXPOSE 3000
 
 #RUN npm start
 
-CMD ["./node_modules/.bin/babel-node", "--presets=latest", "./dist/bin/www" ]
+CMD ["./node_modules/.bin/babel-node", "./dist/bin/www" ]
 
