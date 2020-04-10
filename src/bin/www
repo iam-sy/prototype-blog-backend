@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const vhost = require('vhost');
 
 /**
  * Module dependencies.

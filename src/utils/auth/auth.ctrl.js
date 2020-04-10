@@ -78,16 +78,15 @@ const localLogin = async (req, res, next) => {
     try {
         const user = await userModel.findByEmail(email);
         if (!user) {
-            res.status(403).json({ message: error.message });
+            res.status(403).json({ message: "validated error" });
             return;
         }
 
         const validated = user.validatePassword(password);
         if (!validated) {
-            res.status(403).json({ message: error.message });
+            res.status(403).json({ message: "validated error" });
             return;
         }
-        console.log(body);
 
         const accessToken = await user.generateToken();
         // set cookie
