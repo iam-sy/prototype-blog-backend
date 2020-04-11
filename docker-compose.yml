@@ -2,65 +2,46 @@ version: '2'
 
 services:
 
-  nginx:
-    build:
-      context: .
-      dockerfile: .docker/nginx.dockerfile
-    links:
-      - node1:node1
-      - node2:node2
-      - node3:node3
-    depends_on:
-      - node1
-      - node2
-      - node3
-    ports:
-      - "80:8080"
-    networks:
-      - app-network
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/nginx.dockerfile
+  #   links:
+  #     - node1:node1
+  #     - node2:node2
+  #     - node3:node3
+  #   depends_on:
+  #     - node1
+  #     - node2
+  #     - node3
+  #   ports:
+  #     - "9999:8080"
+  #   networks:
+  #     - app-network
 
   node1:
+    container_name: rest_api
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /usr/src/app
+    # command: ./node_modules/.bin/babel-node ./dist/bin/www
+    working_dir: /usr/src/api
     volumes:
-      - .:/usr/src/app
+      - ./upload:/usr/src/api/uploads
+      - ./node_modules:/usr/src/api/node_modules
     ports:
-      - "3000"
+      - "4000"
+    env_file:
+      - .env.production
     environment:
       - INSTANCE=node1
+      - VIRTUAL_HOST=prototype-back.iammoon.xyz
     networks:
       - app-network
 
-  node2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    working_dir: /usr/src/app
-    volumes:
-      - .:/usr/src/app
-    ports:
-      - "3000"
-    environment:
-      - INSTANCE=node2
-    networks:
-      - app-network
-
-  node3:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    working_dir: /usr/src/app
-    volumes:
-      - .:/usr/src/app
-    ports:
-      - "3000"
-    environment:
-      - INSTANCE=node3
-    networks:
-      - app-network
 
 networks:
   app-network:
-    driver: bridge
+    external:
+      name: nginx-proxy
+
