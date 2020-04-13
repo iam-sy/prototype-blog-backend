@@ -16,7 +16,7 @@ COPY . .
 
 ENV PORT=4000
 
-RUN npm install
+#RUN npm install
 
 #RUN npm run build
 

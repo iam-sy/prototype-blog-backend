@@ -27,14 +27,15 @@ services:
     # command: ./node_modules/.bin/babel-node ./dist/bin/www
     working_dir: /usr/src/api
     volumes:
-      - ./upload:/usr/src/api/uploads
+      - ./uploads:/usr/src/api/uploads
+      - ./dist:/usr/src/api/dist
       - ./node_modules:/usr/src/api/node_modules
     ports:
-      - "4000"
+      - "4000:4000"
     env_file:
       - .env.production
     environment:
-      - INSTANCE=node1
+      - INSTANCE=api
       - VIRTUAL_HOST=prototype-back.iammoon.xyz
     networks:
       - app-network

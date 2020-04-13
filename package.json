@@ -8,7 +8,7 @@
         "restart": "rimraf dist && npm run build && npm run start:dev",
         "start:dev": "nodemon -r dotenv/config --exec babel-node ./src/bin/www",
         "clean": "rm package-lock.json",
-        "start": "npm run build && babel-node ./dist/bin/www",
+        "start": "babel-node ./dist/bin/www",
         "build": "babel src --out-dir dist --source-maps inline --copy-files",
         "docker": "./node_modules/.bin/babel-node ./dist/bin/www"
     },
