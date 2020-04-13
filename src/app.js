@@ -29,7 +29,7 @@ var app = express();
 // db connect
 mongooseConnect();
 // view engine setup
-app.use(cors());
+//app.use(cors());
 
 app.use(cookieParser());
 app.use(jwtMiddleware);
